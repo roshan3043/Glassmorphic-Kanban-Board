@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Glassmorphic Kanban Board - Premium Productivity Tool</title>
+  <meta name="description" content="A highly visual management software featuring glassmorphic design, column sorting, task drag & drop, local storage persistence, and dynamic user avatars.">
+  
+  <!-- Plus Jakarta Sans Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="style.css?v=1.7">
+</head>
+<body>
+
+  <!-- Dynamic Ambient Glow Orbs -->
+  <div class="bg-orbs-container" id="bgOrbsContainer">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+    <div class="orb orb-4"></div>
+  </div>
+
+  <!-- Main Application Wrapper -->
+  <div class="app-container">
+    
+    <!-- Header Panel -->
+    <header class="app-header glass-panel">
+      <div class="header-logo-section">
+        <div class="logo-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="3" y="3" width="6" height="10" rx="1.5" fill="url(#logoGrad1)" />
+            <rect x="11" y="3" width="10" height="6" rx="1.5" fill="url(#logoGrad2)" />
+            <rect x="3" y="15" width="6" height="6" rx="1.5" fill="url(#logoGrad2)" />
+            <rect x="11" y="11" width="10" height="10" rx="1.5" fill="url(#logoGrad1)" />
+            <defs>
+              <linearGradient id="logoGrad1" x1="3" y1="3" x2="9" y2="13" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#ff758c" />
+                <stop offset="1" stop-color="#ff7eb3" />
+              </linearGradient>
+              <linearGradient id="logoGrad2" x1="11" y1="3" x2="21" y2="9" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#8ec5fc" />
+                <stop offset="1" stop-color="#e0c3fc" />
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <div class="logo-text">
+          <h1>AuraFlow</h1>
+          <span class="logo-subtitle">Kanban Board</span>
+        </div>
+      </div>
+
+      <!-- Controls & Search -->
+      <div class="header-controls">
+        <!-- Search bar -->
+        <div class="search-wrapper glass-input-wrapper">
+          <svg class="control-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+          <input type="text" id="searchInput" placeholder="Search tasks..." class="glass-input">
+        </div>
+
+        <!-- Filter assignee -->
+        <div class="select-wrapper glass-input-wrapper">
+          <select id="filterMember" class="glass-select">
+            <option value="all">All Members</option>
+          </select>
+        </div>
+
+        <!-- Filter priority -->
+        <div class="select-wrapper glass-input-wrapper">
+          <select id="filterPriority" class="glass-select">
+            <option value="all">All Priorities</option>
+            <option value="high">High Priority</option>
+            <option value="medium">Medium Priority</option>
+            <option value="low">Low Priority</option>
+          </select>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="header-actions">
+          <button id="btnStats" class="icon-btn glass-btn" title="View Statistics">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+          </button>
+          <button id="btnMembers" class="icon-btn glass-btn admin-only" title="Manage Members">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+          </button>
+          <button id="btnCustomizer" class="icon-btn glass-btn" title="Customize Layout">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+          </button>
+          <button id="btnAddColumn" class="action-btn glass-btn accent-btn admin-only">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            <span>Add Column</span>
+          </button>
+
+          <!-- User Session Badge -->
+          <div id="sessionBadge" class="session-badge glass-panel-nested" style="display: none;">
+            <div class="session-avatar" id="sessionAvatar">AD</div>
+            <span class="session-name" id="sessionName">Administrator</span>
+            <button id="btnLogout" class="logout-btn" title="Log Out">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Board Container -->
+    <main class="board-viewport">
+      <div class="board-canvas" id="boardCanvas">
+        <!-- Columns will be dynamically generated here -->
+      </div>
+    </main>
+
+  </div>
+
+  <!-- MODALS -->
+
+  <!-- 1. Task Create/Edit Modal -->
+  <div class="modal-backdrop" id="taskModal">
+    <div class="modal-content glass-panel" style="max-width: 600px;">
+      <div class="modal-header">
+        <h2 id="modalTaskTitleHeader">Create Task</h2>
+        <button class="modal-close" id="closeTaskModalBtn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+      <form id="taskForm" class="modal-body">
+        <input type="hidden" id="taskFormId">
+        <input type="hidden" id="taskFormColumnId">
+
+        <div class="form-group">
+          <label for="taskTitle" class="form-label">Task Title</label>
+          <input type="text" id="taskTitle" required placeholder="What needs to be done?" class="glass-input-full">
+        </div>
+
+        <div class="form-group">
+          <label for="taskDesc" class="form-label">Description</label>
+          <textarea id="taskDesc" rows="3" placeholder="Add details or notes about this task..." class="glass-textarea"></textarea>
+        </div>
+
+        <div class="form-row-2">
+          <div class="form-group">
+            <label for="taskPriority" class="form-label">Priority</label>
+            <div class="glass-input-wrapper">
+              <select id="taskPriority" class="glass-select-full">
+                <option value="low">Low Priority</option>
+                <option value="medium" selected>Medium Priority</option>
+                <option value="high">High Priority</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="taskDueDate" class="form-label">Due Date</label>
+            <input type="date" id="taskDueDate" class="glass-input-full date-picker">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Assign Members</label>
+          <div class="members-selector-grid" id="modalMembersGrid">
+            <!-- Dynamic members selector list -->
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="checklist-header">
+            <label class="form-label">Checklist / Subtasks</label>
+            <button type="button" id="btnAddChecklistItem" class="text-link-btn">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+              Add Item
+            </button>
+          </div>
+          <div class="checklist-items-container" id="modalChecklistContainer">
+            <!-- Checklist rows dynamically created here -->
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" id="btnDeleteTask" class="action-btn danger-btn text-only-btn admin-only" style="display: none;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+            <span>Delete Task</span>
+          </button>
+          <div class="footer-right-actions">
+            <button type="button" class="action-btn glass-btn" id="btnCancelTaskModal">Cancel</button>
+            <button type="submit" class="action-btn glass-btn accent-btn" id="btnSaveTask">Save Task</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 2. Members Management Modal -->
+  <div class="modal-backdrop" id="membersModal">
+    <div class="modal-content glass-panel" style="max-width: 500px;">
+      <div class="modal-header">
+        <h2>Board Members</h2>
+        <button class="modal-close" id="closeMembersModalBtn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        
+        <!-- Add New Member Form -->
+        <div class="add-member-form glass-panel-nested">
+          <h3>Register Employee</h3>
+          <form id="createEmployeeForm" style="display: flex; flex-direction: column; gap: 10px; margin-top: 10px;">
+            <input type="text" id="newMemberName" placeholder="Full Name (e.g. John Doe)" required class="glass-input-full">
+            <div class="form-row-2">
+              <input type="text" id="newMemberLoginId" placeholder="4-Digit ID (e.g. 1234)" required pattern="\d{4}" maxlength="4" class="glass-input-full">
+              <input type="password" id="newMemberPassword" placeholder="Default Password" required class="glass-input-full">
+            </div>
+            <button type="submit" class="action-btn glass-btn accent-btn" style="width: 100%;">
+              Register Employee
+            </button>
+          </form>
+        </div>
+
+        <!-- Current Members List -->
+        <div class="members-list-wrapper">
+          <h3>Registered Employees</h3>
+          <div class="members-scroll-list" id="boardMembersList">
+            <!-- Dynamic members list with delete option -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. Board Customizer Settings Modal -->
+  <div class="modal-backdrop" id="customizerModal">
+    <div class="modal-content glass-panel" style="max-width: 450px;">
+      <div class="modal-header">
+        <h2>Customize Board</h2>
+        <button class="modal-close" id="closeCustomizerModalBtn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        
+        <!-- Blur Intensity Slider -->
+        <div class="settings-group">
+          <label class="form-label" for="sliderBlur">Glass Blur Intensity (<span id="blurValDisplay">16px</span>)</label>
+          <input type="range" id="sliderBlur" min="4" max="32" value="16" class="settings-slider">
+        </div>
+
+        <!-- Orb Visibility Toggle -->
+        <div class="settings-group toggle-row">
+          <div>
+            <label class="form-label" style="margin-bottom: 2px;">Ambient Glow Orbs</label>
+            <span class="settings-description">Enable moving backdrop glowing orbs.</span>
+          </div>
+          <label class="switch-toggle">
+            <input type="checkbox" id="toggleOrbs" checked>
+            <span class="slider-toggle-round"></span>
+          </label>
+        </div>
+
+        <!-- Theme Gradient Background Selector -->
+        <div class="settings-group">
+          <label class="form-label">Background Theme</label>
+          <div class="theme-picker-grid">
+            <button class="theme-pick-btn active" data-theme="mesh-dark" style="background: radial-gradient(circle at 10% 20%, rgb(18, 12, 33) 0%, rgb(8, 6, 18) 90%);">
+              <span class="theme-name">Space Mesh</span>
+            </button>
+            <button class="theme-pick-btn" data-theme="mesh-cyber" style="background: linear-gradient(135deg, #0f0c1b 0%, #150a21 50%, #05050d 100%);">
+              <span class="theme-name">Cyberpunk</span>
+            </button>
+            <button class="theme-pick-btn" data-theme="mesh-aurora" style="background: linear-gradient(180deg, #0d1e21 0%, #050a0a 100%);">
+              <span class="theme-name">Aurora Glow</span>
+            </button>
+            <button class="theme-pick-btn" data-theme="mesh-sunset" style="background: linear-gradient(135deg, #1f1218 0%, #0a0507 100%);">
+              <span class="theme-name">Deep Sunset</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Reset Board State Button -->
+        <div class="settings-group danger-settings-zone admin-only">
+          <label class="form-label">Reset Database</label>
+          <span class="settings-description">Restore board to default columns and template tasks. All current changes will be overwritten.</span>
+          <button id="btnResetBoard" class="action-btn danger-btn" style="margin-top: 10px; width: 100%;">
+            Reset Board Data
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. Statistics Dashboard Modal -->
+  <div class="modal-backdrop" id="statsModal">
+    <div class="modal-content glass-panel" style="max-width: 500px;">
+      <div class="modal-header">
+        <h2>Board Analytics</h2>
+        <button class="modal-close" id="closeStatsModalBtn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        
+        <!-- Summary Stats grid -->
+        <div class="stats-summary-grid">
+          <div class="stat-card glass-panel-nested">
+            <span class="stat-num" id="statTotalTasks">0</span>
+            <span class="stat-label">Total Tasks</span>
+          </div>
+          <div class="stat-card glass-panel-nested">
+            <span class="stat-num" id="statCompletedTasks">0</span>
+            <span class="stat-label">Completed</span>
+          </div>
+          <div class="stat-card glass-panel-nested">
+            <span class="stat-num" id="statIncompleteTasks">0</span>
+            <span class="stat-label">Active</span>
+          </div>
+        </div>
+
+        <!-- Priority distribution chart/bars -->
+        <div class="stats-section">
+          <h3>Task Priority Distribution</h3>
+          <div class="priority-stats-bars">
+            <div class="stat-bar-group">
+              <div class="stat-bar-header">
+                <span>High Priority</span>
+                <span id="statHighCount">0</span>
+              </div>
+              <div class="stat-bar-track">
+                <div class="stat-bar-fill high-fill" id="statHighBar" style="width: 0%;"></div>
+              </div>
+            </div>
+            <div class="stat-bar-group">
+              <div class="stat-bar-header">
+                <span>Medium Priority</span>
+                <span id="statMediumCount">0</span>
+              </div>
+              <div class="stat-bar-track">
+                <div class="stat-bar-fill medium-fill" id="statMediumBar" style="width: 0%;"></div>
+              </div>
+            </div>
+            <div class="stat-bar-group">
+              <div class="stat-bar-header">
+                <span>Low Priority</span>
+                <span id="statLowCount">0</span>
+              </div>
+              <div class="stat-bar-track">
+                <div class="stat-bar-fill low-fill" id="statLowBar" style="width: 0%;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Column breakdown list -->
+        <div class="stats-section">
+          <h3>Tasks By Column</h3>
+          <ul class="stats-column-list" id="statColumnsBreakdown">
+            <!-- Dynamic column count items -->
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Login Portal Overlay -->
+  <div class="login-backdrop" id="loginOverlay">
+    <div class="login-box glass-panel">
+      <div class="login-header">
+        <div class="logo-icon" style="margin: 0 auto 12px auto;">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="3" y="3" width="6" height="10" rx="1.5" fill="url(#logoGrad1)" />
+            <rect x="11" y="3" width="10" height="6" rx="1.5" fill="url(#logoGrad2)" />
+            <rect x="3" y="15" width="6" height="6" rx="1.5" fill="url(#logoGrad2)" />
+            <rect x="11" y="11" width="10" height="10" rx="1.5" fill="url(#logoGrad1)" />
+          </svg>
+        </div>
+        <h2>AuraFlow Portal</h2>
+        <p class="login-subtitle">Productivity Board Log In</p>
+      </div>
+      <form id="loginForm" class="login-form">
+        <div class="form-group">
+          <label for="loginId" class="form-label">Employee ID / Login ID</label>
+          <input type="text" id="loginId" placeholder="e.g. admin or 1001" required class="glass-input-full">
+        </div>
+        <div class="form-group" style="margin-top: 12px;">
+          <label for="loginPassword" class="form-label">Password</label>
+          <input type="password" id="loginPassword" placeholder="Enter password" required class="glass-input-full">
+        </div>
+        <button type="submit" class="action-btn glass-btn accent-btn" style="width: 100%; margin-top: 20px; height: 44px;">
+          Login
+        </button>
+        <div id="loginError" class="login-error-msg" style="display: none;"></div>
+      </form>
+    </div>
+  </div>
+
+  <!-- JavaScript ES6 Module Loading -->
+  <script type="module" src="js/app.js?v=1.7"></script>
+</body>
+</html>

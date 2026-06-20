@@ -1,0 +1,21 @@
+{
+  "name": "auraflow-kanban-board",
+  "version": "1.0.0",
+  "description": "Premium glassmorphic Kanban Board for business workflow management.",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx http-server -p 8080 -c-1",
+    "dev": "npx http-server -p 8080 -c-1"
+  },
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  },
+  "keywords": [
+    "kanban",
+    "glassmorphism",
+    "dashboard",
+    "productivity"
+  ],
+  "author": "Google DeepMind pair programming with Antigravity",
+  "license": "ISC"
+}
